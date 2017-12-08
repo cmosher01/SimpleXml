@@ -120,9 +120,7 @@ public class SimpleXml {
 
     private static SAXParserFactory createSaxParserFactory() {
         final SAXParserFactory f = SAXParserFactory.newInstance(SimpleXml.classSaxParserFactory.getName(), SimpleXml.loader);
-        f.setValidating(false);
         f.setNamespaceAware(true);
-        f.setXIncludeAware(false);
         return f;
     }
 
