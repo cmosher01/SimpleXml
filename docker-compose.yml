@@ -1,0 +1,7 @@
+---
+version: '2'
+services:
+    gradle:
+        build: .
+        volumes:
+            - ~/.gradle:/home/gradle/.gradle
