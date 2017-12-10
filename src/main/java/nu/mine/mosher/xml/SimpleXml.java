@@ -24,6 +24,8 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Map;
 
 /**
  * Simple wrapper for XML processing.
@@ -79,9 +81,22 @@ public class SimpleXml {
     }
 
     public String transform(final String xslt) throws TransformerException {
+        return transform(xslt, Collections.emptyMap());
+    }
+
+    public String transform(final String xslt, final Map<String, Object> params) throws TransformerException {
         final StringWriter sOut = new StringWriter(SimpleXml.INITIAL_BUFFER_SIZE);
-        createTransformer(asAugSaxSource(xslt)).transform(asSaxSource(this.roundtrip), new StreamResult(sOut));
+        final Transformer transformer = createTransformer(asAugSaxSource(xslt));
+        params.forEach((name, value) -> transformer.setParameter(name, convertValue(value)));
+        transformer.transform(asSaxSource(this.roundtrip), new StreamResult(sOut));
         return sOut.toString();
+    }
+
+    private String convertValue(final Object value) {
+        if (value instanceof Boolean) {
+            return convertValue(((Boolean)value) ? 1 : 0);
+        }
+        return value.toString();
     }
 
     @Override
