@@ -1,3 +1,5 @@
+import org.junit.platform.console.options.Details
+
 buildscript {
     repositories {
         mavenCentral()
@@ -14,14 +16,13 @@ version = '1.0.0-SNAPSHOT'
 sourceCompatibility = 1.8
 
 repositories {
-    mavenLocal()
     mavenCentral()
 }
 
 dependencies {
     // JAXP XML processing
 
-    // DOM and SAX parsers;
+    // DOM and SAX parsers:
     compile group: 'xerces', name: 'xercesImpl', version: 'latest.release', {
         exclude group: 'xml-apis'
     }
@@ -55,4 +56,8 @@ junitPlatformTest {
             'javax.xml.transform.TransformerFactory': 'nu.mine.mosher.xml.TransformerFactoryStub',
             'javax.xml.parsers.DocumentBuilderFactory': 'nu.mine.mosher.xml.DocumentBuilderFactoryStub'
     ]
+}
+
+junitPlatform {
+    details = Details.TREE
 }
