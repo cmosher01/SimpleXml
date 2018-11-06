@@ -193,11 +193,8 @@ public class SimpleXml {
     private static Schema createSchema(final Source s) throws SAXException {
         final SchemaFactory factory = createSchemaFactory();
 
-        final SysPropSetter p = new SysPropSetter(SAXParserFactory.class.getName()).set(SimpleXml.classSaxParserFactory.getName());
-        try {
+        try (final SysPropSetter p = new SysPropSetter(SAXParserFactory.class.getName()).set(SimpleXml.classSaxParserFactory.getName())) {
             return factory.newSchema(s);
-        } finally {
-            p.reset();
         }
     }
 }

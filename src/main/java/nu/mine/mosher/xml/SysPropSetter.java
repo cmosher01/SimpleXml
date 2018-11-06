@@ -1,9 +1,11 @@
 package nu.mine.mosher.xml;
 
+import java.io.Closeable;
+
 /**
  * Allows setting a System property, and easily resetting it to its original value.
  */
-public class SysPropSetter {
+public class SysPropSetter implements Closeable {
     private final String prop;
     private final String origValueOrNull;
 
@@ -27,5 +29,10 @@ public class SysPropSetter {
 
     public void reset() {
         set(this.origValueOrNull);
+    }
+
+    @Override
+    public void close() {
+        reset();
     }
 }
