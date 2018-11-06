@@ -85,4 +85,15 @@ public class SimpleXmlTests {
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?><A/>", uut.transform(xslt, Collections.singletonMap("p", false)));
         assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?><A/>", uut.transform(xslt));
     }
+
+    @Test
+    void preventXxe() {
+        final String xml = "<?xml   version = \"1.0\"   encoding = \"utf-8\" ?>\n" +
+            "<!DOCTYPE foo [\n" +
+            "  <!ELEMENT foo ANY >\n" +
+            "  <!ENTITY xxe SYSTEM \"file:///etc/passwd\" >\n" +
+            "]>\n" +
+            "<foo>&xxe;</foo>\n";
+        assertThrows(SAXParseException.class, () -> new SimpleXml(xml));
+    }
 }

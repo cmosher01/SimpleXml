@@ -6,12 +6,10 @@ import net.sf.saxon.lib.AugmentedSource;
 import net.sf.saxon.lib.ErrorGatherer;
 import net.sf.saxon.lib.ParseOptions;
 import org.apache.xerces.jaxp.SAXParserFactoryImpl;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
-import org.xml.sax.XMLReader;
+import org.xml.sax.*;
 
 import javax.xml.XMLConstants;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import javax.xml.transform.*;
@@ -133,8 +131,9 @@ public class SimpleXml {
         }
     }
 
-    private static SAXParserFactory createSaxParserFactory() {
+    private static SAXParserFactory createSaxParserFactory() throws SAXException, ParserConfigurationException {
         final SAXParserFactory f = SAXParserFactory.newInstance(SimpleXml.classSaxParserFactory.getName(), SimpleXml.loader);
+        f.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
         f.setNamespaceAware(true);
         return f;
     }
