@@ -135,6 +135,7 @@ public class SimpleXml {
         final SAXParserFactory f = SAXParserFactory.newInstance(SimpleXml.classSaxParserFactory.getName(), SimpleXml.loader);
         f.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
         f.setNamespaceAware(true);
+        f.setXIncludeAware(false);
         return f;
     }
 
