@@ -1,12 +1,13 @@
-apply plugin: 'java'
-
-group = 'nu.mine.mosher.xml'
-version = '1.0.0-SNAPSHOT'
-sourceCompatibility = JavaVersion.VERSION_1_8
+plugins {
+    id 'maven-publish'
+}
 
 repositories {
     mavenCentral()
+    jcenter()
 }
+
+apply plugin: 'java'
 
 dependencies {
     // JAXP XML processing
@@ -51,3 +52,21 @@ test {
         'javax.xml.parsers.DocumentBuilderFactory': 'nu.mine.mosher.xml.DocumentBuilderFactoryStub'
     ]
 }
+
+task sourcesJar(type: Jar) {
+    from sourceSets.main.allJava
+    archiveClassifier = 'sources'
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+            artifact sourcesJar
+        }
+    }
+}
+
+group = 'nu.mine.mosher.xml'
+sourceCompatibility = JavaVersion.VERSION_1_8
+version = '1.0.0'
