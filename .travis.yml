@@ -1,6 +1,7 @@
 ---
-dist: xenial
 language: java
+jdk:
+    - openjdk8
 before_deploy:
   - ./gradlew sourcesJar generatePomFileForMavenPublication
 deploy:
