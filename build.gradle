@@ -1,79 +1,11 @@
-plugins {
-    id 'java'
-    id 'maven-publish'
+def inc(module) {
+    apply from: "${rootProject.projectDir}/gradle/${module}.gradle"
 }
 
-repositories {
-    mavenCentral()
-    jcenter()
-}
-
-dependencies {
-    // Note: This should exclude all transitive dependencies (for compile and runtime).
-    // There should only be a total of FOUR dependent jar files: xercesImpl, Saxon-HE, isorelax, and jing
-
-    // JAXP XML processing
-    // DOM and SAX parsers
-    // Apache Xerces2
-    // http://xerces.apache.org/xerces2-j/
-    implementation group: 'xerces', name: 'xercesImpl', version: 'latest.release', {
-        exclude group: 'xml-apis'
-    }
-
-    // XSLT transformer
-    // Saxon-HE
-    // https://sourceforge.net/projects/saxon/
-    implementation group: 'net.sf.saxon', name: 'Saxon-HE', version: 'latest.release'
-
-    // RELAX NG validator
-    // Thai Open Source Jing
-    // https://relaxng.org/
-    // https://github.com/relaxng/jing-trang
-    implementation group: 'isorelax', name: 'isorelax', version: 'latest.release'
-    implementation group: 'org.relaxng', name: 'jing', version: 'latest.release', {
-        exclude group: 'xerces'
-        exclude group: 'xml-apis'
-        exclude group: 'net.sf.saxon'
-        exclude group: 'isorelax'
-    }
-
-
-
-    // JUnit 5 tests
-    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: 'latest.release'
-    testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: 'latest.release'
-}
-
-test {
-    useJUnitPlatform()
-    testLogging {
-        events "passed", "skipped", "failed"
-        showStandardStreams = true
-    }
-
-    // during tests, make sure nobody unexpectedly uses the system properties and
-    // instantiates the XML classes internal to rt.jar (com.sun.org.apache...)
-    systemProperties = [
-        'jaxp.debug': '1',
-        'javax.xml.parsers.SAXParserFactory': 'nu.mine.mosher.xml.SaxParserFactoryStub',
-        'javax.xml.transform.TransformerFactory': 'nu.mine.mosher.xml.TransformerFactoryStub',
-        'javax.xml.parsers.DocumentBuilderFactory': 'nu.mine.mosher.xml.DocumentBuilderFactoryStub'
-    ]
-}
-
-task sourcesJar(type: Jar) {
-    from sourceSets.main.allJava
-    archiveClassifier = 'sources'
-}
-
-publishing {
-    publications {
-        maven(MavenPublication) {
-            from components.java
-            artifact sourcesJar
-        }
-    }
-}
-
-group = 'nu.mine.mosher.xml'
-sourceCompatibility = JavaVersion.VERSION_1_8
+inc('version')
+inc('project')
+inc('dependencies')
+inc('test')
+inc('srcjar')
+inc('maven')
+inc('bintray')

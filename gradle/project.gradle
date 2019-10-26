@@ -1,0 +1,7 @@
+apply plugin: JavaLibraryPlugin
+
+group = 'nu.mine.mosher.xml'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+}

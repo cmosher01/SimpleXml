@@ -24,6 +24,9 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
+import java.util.Optional;
+
+
 
 /**
  * Simple wrapper for XML processing.
@@ -31,8 +34,8 @@ import java.util.Map;
  * Only supports strings, not files.
  * <p>
  * Handles:
- * XML parsing (using Apache Xerces),
- * validating (RELAX NG XML schema using Jing Trang), and
+ * parsing (XML using Apache Xerces),
+ * validating (RELAX NG XML schema using Jing), and
  * transformation (XSLT using Saxon HE).
  */
 public class SimpleXml {
@@ -194,7 +197,7 @@ public class SimpleXml {
     private static Schema createSchema(final Source s) throws SAXException {
         final SchemaFactory factory = createSchemaFactory();
 
-        try (final SysPropSetter p = new SysPropSetter(SAXParserFactory.class.getName()).set(SimpleXml.classSaxParserFactory.getName())) {
+        try (final SysPropResetter p = SysPropResetter.set(SAXParserFactory.class.getName(), Optional.of(SimpleXml.classSaxParserFactory.getName()))) {
             return factory.newSchema(s);
         }
     }

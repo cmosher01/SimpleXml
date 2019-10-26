@@ -1,0 +1,45 @@
+repositories {
+    jcenter()
+    mavenCentral()
+}
+
+dependencies {
+    // Note: This should exclude all transitive dependencies (for compile and runtime).
+    // There should only be a total of FOUR dependent jar files:
+    //     xercesImpl
+    //     Saxon-HE
+    //     isorelax
+    //     jing
+
+
+
+    // JAXP XML processing
+    // DOM and SAX parsers
+    // Apache Xerces2
+    // http://xerces.apache.org/xerces2-j/
+    implementation group: 'xerces', name: 'xercesImpl', version: 'latest.release', {
+        exclude group: 'xml-apis'
+    }
+
+    // XSLT transformer
+    // Saxon-HE
+    // https://sourceforge.net/projects/saxon/
+    implementation group: 'net.sf.saxon', name: 'Saxon-HE', version: 'latest.release'
+
+    // RELAX NG validator
+    // Thai Open Source Jing
+    // https://relaxng.org/
+    // https://github.com/relaxng/jing-trang
+    implementation group: 'isorelax', name: 'isorelax', version: 'latest.release'
+    implementation group: 'org.relaxng', name: 'jing', version: 'latest.release', {
+        exclude group: 'xerces'
+        exclude group: 'xml-apis'
+        exclude group: 'net.sf.saxon'
+        exclude group: 'isorelax'
+    }
+
+
+
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: 'latest.release'
+    testRuntime group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: 'latest.release'
+}
