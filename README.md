@@ -1,8 +1,10 @@
 # SimpleXml
 
+DEPRECATED: This library is no longer maintained. It will remain archived, for reference purposes only.
+
 A simple library to handle XML from a Java application.
 
-Pass in XML as Strings, for Xerces parsing, RELAX NG validation, and SAXON transformation.
+Pass in XML as Strings, for Xerces parsing, RELAX NG validation, and SAXON 9 transformation.
 
 ```java
 final String xml = "<?xml   version = \"1.0\"   encoding = \"utf-8\" ?>" +
